@@ -22,22 +22,63 @@ namespace ld_mapCrawler
                 driver.FindElement(By.Id("MM_SEARCH_FAKE")).Click();
 
                 IWebElement q = driver.FindElement(By.Id("query"));
-                q.SendKeys("서울 가볼만한 곳");
+                q.SendKeys("서울 혼자서 가볼만한곳");
                 driver.FindElement(By.ClassName("sch_submit")).Click();
                 Thread.Sleep(5000);
 
-                for (int i = 1; i <= 2; i++)
+                var rank = driver.FindElement(By.ClassName("_region_recommendplace_rank"));
+
+                while (true)
                 {
+                    string key = Console.ReadLine();
+                    if (key != "T" && key != "t")
+                    {
+                        break;
+                    }
+
                     for (int j = 1; j <= 5; j++)
                     {
-                        var rank = driver.FindElement(By.ClassName("_region_recommendplace_rank"));
-                        var page = rank.FindElement(By.XPath("//*[@id=\"ct\"]/section[4]/div[3]/div[2]/div/div["+i+"]"));
-                        var tgt = page.FindElement(By.XPath("//*[@id=\"ct\"]/section[4]/div[3]/div[2]/div/div[1]/ul/li[" + j + "]/a/div[2]/div[1]/strong"));
-                        string title = tgt.Text;
-                        Console.WriteLine(title);
+                        try
+                        {
+                            var tgt = rank.FindElement(By.XPath("div[3]/div[2]/div/div[" + 1 + "]/ul/li[" + j + "]/a/div[2]/div[1]/strong"));
+                            string title = tgt.Text;
+                            if (title != "") 
+                            {
+                                Console.WriteLine(title);
+                            }
+                        }
+                        catch (Exception e) { }
+                    }
+
+                    for (int j = 1; j <= 5; j++)
+                    {
+                        try
+                        {
+                            var tgt = rank.FindElement(By.XPath("div[3]/div[2]/div/div[" + 2 + "]/ul/li[" + j + "]/a/div[2]/div[1]/strong"));
+                            string title = tgt.Text;
+                            if (title != "")
+                            {
+                                Console.WriteLine(title);
+                            }
+                        }
+                        catch (Exception e) { }
+                    }
+
+                    for (int j = 1; j <= 5; j++)
+                    {
+                        try
+                        {
+                            var tgt = rank.FindElement(By.XPath("div[3]/div[2]/div/div[" + 3 + "]/ul/li[" + j + "]/a/div[2]/div[1]/strong"));
+                            string title = tgt.Text;
+                            if (title != "")
+                            {
+                                Console.WriteLine(title);
+                            }
+                        }
+                        catch (Exception e) { }
                     }
                 }
-                
+
 
                 /*
                  // 1위 제목 출력
