@@ -17,26 +17,24 @@ namespace ld_mapCrawler
             {
 
                 driver.Url = "https://m.naver.com/";
-                driver.Manage().Window.Maximize();
-
-                driver.FindElement(By.Id("MM_SEARCH_FAKE")).Click();
-
-                IWebElement q = driver.FindElement(By.Id("query"));
-                q.SendKeys("서울 혼자서 가볼만한곳");
-                driver.FindElement(By.ClassName("sch_submit")).Click();
-                Thread.Sleep(5000);
-
-                var rank = driver.FindElement(By.ClassName("_region_recommendplace_rank"));
 
                 while (true)
                 {
-                    string key = Console.ReadLine();
-                    if (key != "T" && key != "t")
+                    //키 받기
+                    ConsoleKey key = Console.ReadKey().Key;
+                    if (key != ConsoleKey.Enter || key != ConsoleKey.C) // 키가 엔터면 진행
                     {
                         break;
+                    } 
+
+                    if (key == ConsoleKey.C) // 키가 C면 화면 싹쓸이
+                    {
+                        Console.Clear();
                     }
 
-                    for (int j = 1; j <= 5; j++)
+                    var rank = driver.FindElement(By.ClassName("_region_recommendplace_rank")); //장소추천 컴포넌트 찾기
+
+                    for (int j = 1; j <= 5; j++) // idx 별로 탐색, 없으면 출력하지않음
                     {
                         try
                         {
@@ -79,20 +77,7 @@ namespace ld_mapCrawler
                     }
                 }
 
-
-                /*
-                 // 1위 제목 출력
-                for (int i=1;i<=10;i++)
-                {
-                    var rank = driver.FindElement(By.ClassName("_cm_content_area_list_boxoffice"));
-                    var rankOne = rank.FindElement(By.XPath(".//li["+i+"]/a/div/div[2]/strong"));
-                    string title = rankOne.Text;
-                    Console.WriteLine(title);
-                } 
-                 
-                 */
-
-                driver.Close();
+                driver.Close(); // 엔터가 아닌
             }
         }
     }
